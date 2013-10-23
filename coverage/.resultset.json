@@ -1,0 +1,35 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/Jimbo/projects/gobus/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/Jimbo/projects/gobus/app/models/bus.rb": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        null
+      ],
+      "/Users/Jimbo/projects/gobus/app/models/route.rb": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        null
+      ],
+      "/Users/Jimbo/projects/gobus/app/models/stop.rb": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        null
+      ]
+    },
+    "timestamp": 1382560047
+  }
+}
