@@ -1,6 +1,7 @@
 class Stop < ActiveRecord::Base
-  has_many :buses, through: :buses_stops
-  has_many :routes, through: :routes_stops
+  has_and_belongs_to_many :buses
+  has_and_belongs_to_many :routes
 
-  validates :lat, :long, :stop_id, :stop_title, presence: true  
+  validates :lat, :long, :stop_id, :stop_title, presence: true
+  validates :stop_id, uniqueness: true
 end

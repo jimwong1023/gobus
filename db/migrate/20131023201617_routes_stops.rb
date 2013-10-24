@@ -6,5 +6,6 @@ class RoutesStops < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :routes_stops, [ :route_id, :stop_id ], unique: true
   end
 end

@@ -1,7 +1,38 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+require 'httparty'
+require 'pry'
+require 'uri'
+
+agency = "sf-muni"
+
+response = HTTParty.get("http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=#{agency}")
+  
+response['body']['route'].each do |bus_data|
+  bus_line = bus_data['tag']
+  bus_title = bus_data['title']
+  bus = Bus.new(bus_line: bus_line, bus_title: bus_title)
+  if bus.save == false
+    puts "*" * 100
+    puts "#{bus_line} or #{bus_title} did not save"
+  end
+end
+
+Bus.all.each do |bus|
+  url_bus_tag = URI.escape(bus.bus_line)
+  response = HTTParty.get("http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=#{agency}&r=#{url_bus_tag}")
+  response['body']['route']['stop'].each do |stop_data|
+    stop_id = stop_data['tag']
+    stop_title = stop_data['title']
+    lat = stop_data['lat']
+    long = stop_data['lon']
+    
+    stop = Stop.new(stop_id: stop_id, stop_title: stop_title, lat: lat, long: long)
+    if stop.save
+      bus.stops << stop
+    else
+      stop = Stop.find_by_stop_id(stop_id)
+      if stop != nil
+        bus.stops << stop
+      end
+    end
+  end
+end
