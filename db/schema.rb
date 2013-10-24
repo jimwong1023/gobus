@@ -23,15 +23,6 @@ ActiveRecord::Schema.define(version: 20131023201617) do
     t.datetime "updated_at"
   end
 
-  create_table "buses_routes", force: true do |t|
-    t.integer  "bus_id"
-    t.integer  "route_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "buses_routes", ["bus_id", "route_id"], name: "index_buses_routes_on_bus_id_and_route_id", unique: true, using: :btree
-
   create_table "buses_stops", force: true do |t|
     t.integer  "bus_id"
     t.integer  "stop_id"
@@ -45,6 +36,7 @@ ActiveRecord::Schema.define(version: 20131023201617) do
     t.string   "direction_tag"
     t.string   "direction_title"
     t.boolean  "inbound",         default: true
+    t.integer  "bus_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
