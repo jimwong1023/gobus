@@ -11,6 +11,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'better_errors'
 gem 'jbuilder', '~> 1.2'
+gem 'httparty'
 
 group :test, :development do
   gem 'rspec-rails'
