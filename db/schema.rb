@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 20131023201617) do
   enable_extension "plpgsql"
 
   create_table "buses", force: true do |t|
-    t.string   "bus_line",   null: false
-    t.string   "bus_title",  null: false
+    t.string   "bus_line"
+    t.string   "bus_title"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 20131023201617) do
     t.datetime "updated_at"
   end
 
+  add_index "buses_routes", ["bus_id", "route_id"], name: "index_buses_routes_on_bus_id_and_route_id", unique: true, using: :btree
+
   create_table "buses_stops", force: true do |t|
     t.integer  "bus_id"
     t.integer  "stop_id"
@@ -37,10 +39,14 @@ ActiveRecord::Schema.define(version: 20131023201617) do
     t.datetime "updated_at"
   end
 
+  add_index "buses_stops", ["bus_id", "stop_id"], name: "index_buses_stops_on_bus_id_and_stop_id", unique: true, using: :btree
+
   create_table "routes", force: true do |t|
-    t.string  "direction_tag",                  null: false
-    t.string  "direction_title",                null: false
-    t.boolean "inbound",         default: true
+    t.string   "direction_tag"
+    t.string   "direction_title"
+    t.boolean  "inbound",         default: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "routes_stops", force: true do |t|
@@ -50,11 +56,13 @@ ActiveRecord::Schema.define(version: 20131023201617) do
     t.datetime "updated_at"
   end
 
+  add_index "routes_stops", ["route_id", "stop_id"], name: "index_routes_stops_on_route_id_and_stop_id", unique: true, using: :btree
+
   create_table "stops", force: true do |t|
-    t.string   "stop_id",    null: false
-    t.string   "stop_title", null: false
-    t.string   "lat",        null: false
-    t.string   "long",       null: false
+    t.string   "stop_id"
+    t.string   "stop_title"
+    t.string   "lat"
+    t.string   "long"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

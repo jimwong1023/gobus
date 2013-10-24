@@ -1,10 +1,10 @@
 class Stops < ActiveRecord::Migration
   def change
     create_table :stops do |t|
-      t.string :stop_id, null: false
-      t.string :stop_title, null: false
-      t.string :lat, null: false
-      t.string :long, null: false
+      t.string :stop_id, unique: true
+      t.string :stop_title, unique: true
+      t.string :lat
+      t.string :long
 
       t.timestamps
     end
