@@ -2,8 +2,24 @@ require 'httparty'
 require 'pry'
 require 'uri'
 
-agency = "sf-muni"
+def make_route(direction, bus)
+  inbound = direction['name'] == 'Inbound' ? true : false
+  direction_tag = direction['tag']
+  direction_title = direction['title']
 
+  route = Route.new(direction_tag: direction_tag, direction_title: direction_title, inbound: inbound)
+  if route.save
+    bus.routes << route
+    direction['stop'].each do |stop|
+      route.stops << Stop.find_by_stop_id(stop['tag'])
+    end
+  else
+    puts "*" * 100
+    puts "ROUTE DID NOT SAVE #{direction_tag}"
+  end
+end
+
+agency = "sf-muni"
 response = HTTParty.get("http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=#{agency}")
   
 response['body']['route'].each do |bus_data|
@@ -34,5 +50,15 @@ Bus.all.each do |bus|
         bus.stops << stop
       end
     end
+  end
+
+  if response['body']['route']['direction'].class == Array 
+    response['body']['route']['direction'].each do |direction|
+      make_route(direction, bus)
+    end
+
+  else
+    direction = response['body']['route']['direction']
+    make_route(direction, bus)
   end
 end
