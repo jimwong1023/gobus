@@ -9,6 +9,21 @@ class LocationsController < ApplicationController
       end
     end
 
+    bus_lines = []
+    result.each do |stop|
+      bus_lines << stop.buses
+    end
+    bus_lines.flatten.uniq
+
+    # TIMING - next bus ETA: check if there is another bus coming
+    
+    # DISTANCE - closest stop: check for the closest stop
+
+
     render json: result
   end
 end
+
+
+
+
