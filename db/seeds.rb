@@ -56,7 +56,6 @@ Bus.all.each do |bus|
     response['body']['route']['direction'].each do |direction|
       make_route(direction, bus)
     end
-
   else
     direction = response['body']['route']['direction']
     make_route(direction, bus)

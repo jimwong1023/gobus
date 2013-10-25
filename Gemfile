@@ -12,6 +12,9 @@ gem 'turbolinks'
 gem 'better_errors'
 gem 'jbuilder', '~> 1.2'
 gem 'httparty'
+gem 'gmaps4rails'
+gem 'underscore-rails'
+gem 'binding_of_caller'
 
 group :test, :development do
   gem 'rspec-rails'
