@@ -15,6 +15,7 @@ gem 'httparty'
 gem 'gmaps4rails'
 gem 'underscore-rails'
 gem 'binding_of_caller'
+gem 'rails-backbone'
 
 group :test, :development do
   gem 'rspec-rails'

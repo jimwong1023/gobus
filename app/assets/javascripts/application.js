@@ -15,4 +15,9 @@
 //= require turbolinks
 //= require underscore
 //= require gmaps/google
+//= require underscore
+//= require backbone
+//= require backbone_rails_sync
+//= require backbone_datalink
+//= require backbone/gobus
 //= require_tree .
