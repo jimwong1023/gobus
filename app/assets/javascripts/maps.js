@@ -4,7 +4,6 @@
   var JekaEvent = $.extend({}, Backbone.Events);
 
   function getLocation(){
-    console.log("getlocation");
     if (navigator.geolocation){
       navigator.geolocation.getCurrentPosition(showPosition);
       }
@@ -28,8 +27,24 @@
 
   getLocation()
 
+  var Route = Backbone.Model.extend();
+  var Routes = Backbone.Collection.extend({
+      Model: Route,
+      // url: "#"
+  });
+  var routes = new Routes();
+
+  var Stop = Backbone.Model.extend({
+    urlroot: "/location/loc?lat=" + latitude + "&long=" + longitude
+  });
+  var Stops = Backbone.Collection.extend({
+      // Model: Stop,
+    url: "/location/loc?lat=" + latitude + "&long=" + longitude
+  });
+  var stops = new Stops();
+
   var MapView = Backbone.View.extend({
-    render: function () {
+    renderMap: function () {
       handler = Gmaps.build('Google');
       handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
         markers = handler.addMarkers([
@@ -47,6 +62,9 @@
         handler.bounds.extendWith(markers);
         handler.fitMapToBounds();
       }); 
+    },
+    renderStops: function () {
+      console.log("poo")
     }
   });
 
@@ -54,14 +72,16 @@
 
   var Router = Backbone.Router.extend({
     routes: {
-      "":"home"
+      "": "home",
     }
   });
 
   var router = new Router;
 
   router.on('route:home', function() {
-    mapView.render();
+    console.log('home')
+    mapView.renderMap();
+    mapView.renderStops();
   });
 
   JekaEvent.on("coordinates", function() {
