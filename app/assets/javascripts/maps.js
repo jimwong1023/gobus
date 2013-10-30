@@ -37,7 +37,6 @@
         // Model: Stop,
       url: "/location/loc?lat=" + latitude + "&long=" + longitude
     });
-    var stops = new Stops();
 
     var MapView = Backbone.View.extend({
       renderMap: function () {
@@ -59,20 +58,37 @@
           handler.fitMapToBounds();
         }); 
       },
+
       renderStops: function () {
+        var that = this
+        var stops = new Stops();
         stops.fetch({
-          success: function (stop) {
-            console.log(stop);
-            console.log(stop.get('id'));
+          success: function (stops) {
+            console.log(stops);
+            // console.log(stops._byCid.c1.attributes);
+            var routeStops = stops._byCid.c1.attributes
+            // stops.each ( function(model) {
+            //   console.log(model.toJSON());
+            // });
+            console.log(routeStops)
 
-
+            for (property in routeStops){
+              // console.log(property)
+              // console.log(routeStops[property])
+              var template = _.template($('#routesList').html(), {stops: stops.models} );
+              console.log(that)
+              $('#routes').html(template);
+            }
           }
         });
-
       }
     });
 
     var mapView = new MapView();
+
+
+
+
 
     var Router = Backbone.Router.extend({
       routes: {
